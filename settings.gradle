@@ -1,0 +1,4 @@
+include ':app', ':HeaderFooterRecyview', ':PtrLayout', ':GaoDeMap', ':BingMap', ':LockScreen'
+include ':ClipImage'
+include ':UmShareLibrary'
+include ':UmPush'

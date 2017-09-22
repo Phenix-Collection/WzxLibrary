@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_url"
+        android:text=""
+        android:textSize="13sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_below="@+id/et_url"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:text="EncodeUrl"
+        android:layout_width="140dp"
+        android:layout_height="50dp"/>
+
+
+    <EditText
+        android:layout_below="@id/btn1"
+        android:id="@+id/et_url1"
+        android:text=""
+        android:textSize="13sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_below="@+id/et_url1"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:text="跳转App"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+</RelativeLayout>
