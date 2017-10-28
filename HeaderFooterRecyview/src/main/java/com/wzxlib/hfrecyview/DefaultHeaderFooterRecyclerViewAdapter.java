@@ -14,9 +14,8 @@ import android.widget.TextView;
 public abstract class DefaultHeaderFooterRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends HeaderFooterRecyclerViewAdapter<VH> {
     /**
      * 0 没有footer<br/>
-     * 1 加载更多<br/>
-     * 2 加载中...<br/>
-     * 3 没有更多数据
+     * 1 加载中...<br/>
+     * 2 没有更多数据
      */
     private int mFooterStatus = 0;
 
@@ -35,32 +34,15 @@ public abstract class DefaultHeaderFooterRecyclerViewAdapter<VH extends Recycler
     }
 
     /**
-     * footer 加载更多状态
-     */
-    public final void setFooterLoadMore() {
-        try {
-            if (mFooterStatus == 0) {
-                mFooterStatus = 1;
-                notifyFooterItemInserted(0);
-            } else {
-                mFooterStatus = 1;
-                notifyFooterItemChanged(0);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * footer loading 状态
      */
     public final void setFooterLoading() {
         try {
             if (mFooterStatus == 0) {
-                mFooterStatus = 2;
+                mFooterStatus = 1;
                 notifyFooterItemInserted(0);
-            } else {
-                mFooterStatus = 2;
+            } else if (mFooterStatus != 1) {
+                mFooterStatus = 1;
                 notifyFooterItemChanged(0);
             }
         } catch (Exception e) {
@@ -74,10 +56,10 @@ public abstract class DefaultHeaderFooterRecyclerViewAdapter<VH extends Recycler
     public final void setFooterNoMore() {
         try {
             if (mFooterStatus == 0) {
-                mFooterStatus = 3;
+                mFooterStatus = 2;
                 notifyFooterItemInserted(0);
-            } else {
-                mFooterStatus = 3;
+            } else if (mFooterStatus != 2) {
+                mFooterStatus = 2;
                 notifyFooterItemChanged(0);
             }
         } catch (Exception e) {
@@ -100,13 +82,10 @@ public abstract class DefaultHeaderFooterRecyclerViewAdapter<VH extends Recycler
         TextView tipView;
         try {
             switch (footerViewType) {
-                case 1://加载更多
-                    footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_item_loadmore, parent, false);
-                    break;
-                case 2://加载中...
+                case 1://加载中...
                     footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_item_loading, parent, false);
                     break;
-                case 3://没有更多数据了
+                case 2://没有更多数据了
                     footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_item_nomore, parent, false);
                     break;
             }
