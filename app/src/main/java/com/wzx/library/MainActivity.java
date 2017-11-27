@@ -60,6 +60,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         //画点
         aMap.addMarker(new MarkerOptions().position(latLng));
         aMap.addMarker(new MarkerOptions().position(latLng1));
+        MarkerOptions options = new MarkerOptions();
 
         //划线
         aMap.addPolyline((new PolylineOptions()).add(latLng, latLng1).color(Color.BLUE).width(3.0f));
