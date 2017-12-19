@@ -14,7 +14,7 @@ import android.widget.Toast;
 /**
  * Created by wangzixu on 2017/9/1.
  */
-public class ActivitySkipApp extends Activity implements View.OnClickListener {
+public class ActivitySchemePull extends Activity implements View.OnClickListener {
     private Activity mActivity;
     private EditText mEtUrl;
     private EditText mEtUrl1;

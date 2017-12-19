@@ -1,7 +1,6 @@
 package com.wzx.library;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +22,14 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 /**
  * Created by wangzixu on 2017/9/1.
  */
-public class MainActivity extends Activity implements View.OnClickListener {
+public class ActivityMap extends Activity implements View.OnClickListener {
 
     private MapView mMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        findViewById(R.id.btn_goskip).setOnClickListener(this);
+        setContentView(R.layout.activity_map);
         MapsInitializer.loadWorldGridMap(true);
 
         mMapView = (MapView) findViewById(R.id.mapview);
@@ -112,13 +110,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_goskip:
-                Intent intent = new Intent(this, ActivitySkipApp.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
     }
 }

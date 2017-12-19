@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
-        android:id="@+id/btn_goskip"
+        android:id="@+id/gomap"
         android:textSize="20dp"
-        android:text="主页"
+        android:text="地图"
         android:layout_width="100dp"
         android:layout_height="50dp"/>
 
-    <com.amap.api.maps2d.MapView
-        android:id="@+id/mapview"
-        android:layout_marginTop="80dp"
-        android:layout_width="match_parent"
-        android:layout_height="400dp">
-    </com.amap.api.maps2d.MapView>
-</RelativeLayout>
+    <Button
+        android:id="@+id/govideo"
+        android:textSize="20dp"
+        android:text="视频"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/gosurface"
+        android:textSize="20dp"
+        android:text="Surface写字板"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+</LinearLayout>
