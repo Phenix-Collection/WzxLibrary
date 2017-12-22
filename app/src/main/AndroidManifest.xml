@@ -39,11 +39,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActivitySchemePull" android:screenOrientation="portrait"
+        <activity android:name=".scheme.ActivitySchemePull" android:screenOrientation="portrait"
             />
-        <activity android:name=".ActivityMap" android:screenOrientation="portrait"
+        <activity android:name=".map.ActivityMap" android:screenOrientation="portrait"
             />
-        <activity android:name=".ActivitySurfaceView" android:screenOrientation="portrait"
+        <activity android:name=".surfaceview.ActivitySurfaceView" android:screenOrientation="portrait"
+            />
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".video.ActivityVideo"
             />
     </application>
 </manifest>

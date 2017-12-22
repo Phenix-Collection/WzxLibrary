@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.amap.api.maps2d.MapView;
+import com.wzx.library.map.ActivityMap;
+import com.wzx.library.surfaceview.ActivitySurfaceView;
+import com.wzx.library.video.ActivityVideo;
 
 /**
  * Created by wangzixu on 2017/9/1.
@@ -31,7 +34,7 @@ public class ActivityMain extends Activity implements View.OnClickListener {
                 startActivity(imap);
                 break;
             case R.id.govideo:
-                Intent ivideo = new Intent(this, ActivityMap.class);
+                Intent ivideo = new Intent(this, ActivityVideo.class);
                 startActivity(ivideo);
                 break;
             case R.id.gosurface:

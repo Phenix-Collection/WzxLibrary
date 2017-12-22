@@ -1,4 +1,4 @@
-package com.wzx.library;
+package com.wzx.library.map;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -18,6 +18,7 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.wzx.library.R;
 
 /**
  * Created by wangzixu on 2017/9/1.

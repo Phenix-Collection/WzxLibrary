@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
         <!--android:background="#fffff"-->
-    <com.wzx.library.MySurfaceView
+    <com.wzx.library.surfaceview.MySurfaceView
         android:id="@+id/mysurfaceview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

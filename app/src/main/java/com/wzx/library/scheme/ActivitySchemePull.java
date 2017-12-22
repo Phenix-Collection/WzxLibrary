@@ -1,4 +1,4 @@
-package com.wzx.library;
+package com.wzx.library.scheme;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.wzx.library.R;
 
 /**
  * Created by wangzixu on 2017/9/1.

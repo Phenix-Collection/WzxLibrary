@@ -1,10 +1,11 @@
-package com.wzx.library;
+package com.wzx.library.surfaceview;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.amap.api.maps2d.MapView;
+import com.wzx.library.R;
 
 /**
  * Created by wangzixu on 2017/9/1.

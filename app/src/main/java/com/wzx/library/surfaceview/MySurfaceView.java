@@ -1,4 +1,4 @@
-package com.wzx.library;
+package com.wzx.library.surfaceview;
 
 import android.content.Context;
 import android.graphics.Canvas;

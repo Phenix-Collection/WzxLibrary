@@ -3,4 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.wzx.library.video.MyVideoView
+        android:id="@+id/myvideoview"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+    </com.wzx.library.video.MyVideoView>
+
+    <!--<com.wzx.library.media.IjkVideoView-->
+        <!--android:id="@+id/myvideoview"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</com.wzx.library.media.IjkVideoView>-->
+
+    <Button
+        android:id="@+id/play"
+        android:layout_alignParentBottom="true"
+        android:text="播放"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
 </RelativeLayout>
