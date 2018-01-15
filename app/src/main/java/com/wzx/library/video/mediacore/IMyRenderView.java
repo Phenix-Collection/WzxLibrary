@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.wzx.library.video;
+package com.wzx.library.video.mediacore;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -27,6 +27,13 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
  * surfaceview和videoview之间需要互相配合和调用, 为了解耦, 有此接口
  */
 public interface IMyRenderView {
+    int AR_ASPECT_FIT_PARENT = 0; // without clip
+    int AR_ASPECT_FILL_PARENT = 1; // may clip
+    int AR_ASPECT_WRAP_CONTENT = 2;
+    int AR_MATCH_PARENT = 3;
+    int AR_16_9_FIT_PARENT = 4;
+    int AR_4_3_FIT_PARENT = 5;
+
     View getView();
 
     void setVideoSize(int videoWidth, int videoHeight);

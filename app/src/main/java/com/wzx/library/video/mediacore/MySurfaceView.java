@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.wzx.library.video;
+package com.wzx.library.video.mediacore;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -24,8 +24,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import com.wzx.library.media.MeasureHelper;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 

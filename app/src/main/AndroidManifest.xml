@@ -48,6 +48,8 @@
         <activity
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:name=".video.ActivityVideo"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             />
     </application>
 </manifest>

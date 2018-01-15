@@ -1,4 +1,4 @@
-package com.wzx.library.video;
+package com.wzx.library.video.mediacore;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -9,8 +9,6 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 
-import com.wzx.library.media.MeasureHelper;
-
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
@@ -20,6 +18,7 @@ public class MyTextureView extends TextureView implements IMyRenderView {
     private static final String TAG = "MyTextureView";
     private MeasureHelper mMeasureHelper;
     private IMyRenderCallback mMyRenderCallback;
+    private SurfaceTexture mSurfaceTexture;
 
     public MyTextureView(Context context) {
         this(context, null);
@@ -37,8 +36,13 @@ public class MyTextureView extends TextureView implements IMyRenderView {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 Log.i("wangzixu", "MyTextureView onSurfaceTextureAvailable");
-                if (mMyRenderCallback != null) {
-                    mMyRenderCallback.onSurfaceCreated(width, height);
+                if (mSurfaceTexture == null) {
+                    mSurfaceTexture = surface;
+                    if (mMyRenderCallback != null) {
+                        mMyRenderCallback.onSurfaceCreated(width, height);
+                    }
+                } else {
+                    MyTextureView.this.setSurfaceTexture(mSurfaceTexture);
                 }
             }
 
@@ -53,6 +57,7 @@ public class MyTextureView extends TextureView implements IMyRenderView {
             @Override
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
                 Log.i("wangzixu", "MyTextureView onSurfaceTextureDestroyed");
+                mSurfaceTexture = null;
                 if (mMyRenderCallback != null) {
                     mMyRenderCallback.onSurfaceDestroyed();
                 }
@@ -73,8 +78,8 @@ public class MyTextureView extends TextureView implements IMyRenderView {
 
     @Override
     public void bindToMediaPlayer(IMediaPlayer mp) {
-        if (mp != null) {
-            mp.setSurface(new Surface(getSurfaceTexture()));
+        if (mp != null && mSurfaceTexture != null) {
+            mp.setSurface(new Surface(mSurfaceTexture));
         }
     }
 

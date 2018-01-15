@@ -1,6 +1,8 @@
 package com.wzx.library.video;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,9 @@ import android.view.WindowManager;
 
 import com.wzx.library.R;
 import com.wzx.library.media.IjkVideoView;
+import com.wzx.library.video.mediacontrol.MyMediaControler;
+import com.wzx.library.video.mediacore.MyVideoPlayerListener;
+import com.wzx.library.video.mediacore.MyVideoView;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -26,13 +31,28 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStatusBarTransparnet(this);
         setContentView(R.layout.activity_video);
+        setStatusBarTransparnet(this);
 
         mMyVideoView = (MyVideoView) findViewById(R.id.myvideoview);
 //        mIjkVideoView = (IjkVideoView) findViewById(R.id.myvideoview);
-        mPlayBtn = findViewById(R.id.play);
-        mPlayBtn.setOnClickListener(this);
+//        mPlayBtn = findViewById(R.id.play);
+//        mPlayBtn.setOnClickListener(this);
+
+        MyMediaControler mediaController = (MyMediaControler) findViewById(R.id.mediacontorller);
+        mMyVideoView.setMediaController(mediaController);
+
+        mediaController.setOnFullScreenListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+            }
+        });
 
         //加载native库
         try {
@@ -61,11 +81,6 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
 
             @Override
             public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-                Log.i("wangzixu", "mMyVideoView onInfo i = " + i + ", i1 = " + i1);
-                if (i == IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED && i1 != 0) {
-                    Log.i("wangzixu", "mMyVideoView onInfo 切换竖屏");
-
-                }
                 return false;
             }
 
@@ -88,21 +103,25 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
             }
         });
 
+//        mMyVideoView.setVideoPath("http://gslb.miaopai.com/stream/t~gB32Ha~0TyT3~Uju8bqQ__.mp4");
+        mMyVideoView.setVideoPath("http://qkk.oss-cn-beijing.aliyuncs.com/1468918230/d83394bf241243619b8dc7fe2ccc8581.mov");
+        mMyVideoView.start();
+
+        Log.i("wangzixu", "Video onCreate");
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.play:
-                mMyVideoView.setVideoPath("http://qkk.oss-cn-beijing.aliyuncs.com/qkk/travel/cc2f7669b62c4759a3ea0f2ecb0582e7/1510902981.mp4");
-                mMyVideoView.start();
-
-//                mIjkVideoView.setVideoPath("http://qkk.oss-cn-beijing.aliyuncs.com/1468918230/d83394bf241243619b8dc7fe2ccc8581.mov");
-//                mIjkVideoView.start();
-                break;
-            default:
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.play:
+////                mMyVideoView.setVideoPath("http://gslb.miaopai.com/stream/t~gB32Ha~0TyT3~Uju8bqQ__.mp4");
+//                mMyVideoView.start();
+////                mMyVideoView.setVideoPath("http://qkk.oss-cn-beijing.aliyuncs.com/1468918230/d83394bf241243619b8dc7fe2ccc8581.mov");
+////                mMyVideoView.start();
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     /**
@@ -128,14 +147,22 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("wangzixu", "Video onStop");
         mMyVideoView.stopPlayback();
 
 //        mIjkVideoView.stopPlayback();
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.i("wangzixu", "onConfigurationChanged --");
+    }
+
+    @Override
     protected void onDestroy() {
         IjkMediaPlayer.native_profileEnd();
+        Log.i("wangzixu", "Video onDestroy");
         super.onDestroy();
     }
 }

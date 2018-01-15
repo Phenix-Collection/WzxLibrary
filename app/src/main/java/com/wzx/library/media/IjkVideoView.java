@@ -37,7 +37,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.MediaController;
 
-import com.wzx.library.video.MyVideoPlayerListener;
+import com.wzx.library.video.mediacore.MyVideoPlayerListener;
 
 import java.io.File;
 import java.io.IOException;
