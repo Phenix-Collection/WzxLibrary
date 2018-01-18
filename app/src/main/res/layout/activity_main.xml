@@ -26,4 +26,12 @@
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/goscheme"
+        android:textSize="20dp"
+        android:text="Scheme测试"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
 </LinearLayout>

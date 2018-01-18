@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,8 +17,8 @@ import com.wzx.library.R;
  */
 public class ActivitySchemePull extends Activity implements View.OnClickListener {
     private Activity mActivity;
-    private EditText mEtUrl;
-    private EditText mEtUrl1;
+    private EditText mEtOriUrl;
+    private EditText mEtEndoceUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,31 +26,21 @@ public class ActivitySchemePull extends Activity implements View.OnClickListener
         mActivity = this;
         setContentView(R.layout.activity_skipapp);
 
-        mEtUrl = (EditText) findViewById(R.id.et_url);
-        mEtUrl1 = (EditText) findViewById(R.id.et_url1);
+        mEtOriUrl = (EditText) findViewById(R.id.et_ori_url);
+        mEtEndoceUrl = (EditText) findViewById(R.id.et_encode_url);
 
-        mEtUrl.setText("http://www.baidu.com");
-//        mEtUrl1.setText("hkmrkd://webview/?eid=miui&url=http://www.baidu.com");
+        mEtOriUrl.setText("http://www.baidu.com");
+//        mEtOriUrl.setText("hkmrkd://webview/?url=http://www.baidu.com");
 
-        Button button = (Button) findViewById(R.id.btn);
-        Button button1 = (Button) findViewById(R.id.btn1);
-
-        button.setOnClickListener(this);
-        button1.setOnClickListener(this);
+        findViewById(R.id.encodeurl).setOnClickListener(this);
+        findViewById(R.id.skipapp).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn1:
-                String toString = mEtUrl.getText().toString();
-                if (!TextUtils.isEmpty(toString)) {
-                    String url = Uri.encode(toString);
-                    mEtUrl1.setText("hkmrkd://webview/?eid=miui&url="+url);
-                }
-                break;
-            case R.id.btn:
-                String s = mEtUrl1.getText().toString();
+            case R.id.skipapp:
+                String s = mEtEndoceUrl.getText().toString();
                 if (!TextUtils.isEmpty(s)) {
                     try {
                         Intent intent = new Intent();
@@ -63,6 +52,13 @@ public class ActivitySchemePull extends Activity implements View.OnClickListener
                         Toast.makeText(this, "未找到相关app", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
+                }
+                break;
+            case R.id.encodeurl:
+                String toString = mEtOriUrl.getText().toString();
+                if (!TextUtils.isEmpty(toString)) {
+                    String url = Uri.encode(toString);
+                    mEtEndoceUrl.setText("hkmrkd://webview/?url=" + url);
                 }
                 break;
             default:

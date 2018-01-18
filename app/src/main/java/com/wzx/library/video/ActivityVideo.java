@@ -64,6 +64,16 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
 
         mMyVideoView.setMyVideoPlayerListener(new MyVideoPlayerListener() {
             @Override
+            public void onRenderStart(IMediaPlayer var1) {
+
+            }
+
+            @Override
+            public void onLoadingBuffer(boolean start) {
+
+            }
+
+            @Override
             public void onBufferingUpdate(IMediaPlayer iMediaPlayer, int i) {
                 Log.i("wangzixu", "mMyVideoView onBufferingUpdate i = " + i);
             }

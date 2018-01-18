@@ -7,8 +7,13 @@ import android.view.View;
 
 import com.amap.api.maps2d.MapView;
 import com.wzx.library.map.ActivityMap;
+import com.wzx.library.scheme.ActivitySchemePull;
 import com.wzx.library.surfaceview.ActivitySurfaceView;
 import com.wzx.library.video.ActivityVideo;
+
+import cn.finalteam.rxgalleryfinal.RxGalleryFinal;
+import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
+import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
 
 /**
  * Created by wangzixu on 2017/9/1.
@@ -24,6 +29,8 @@ public class ActivityMain extends Activity implements View.OnClickListener {
         findViewById(R.id.gomap).setOnClickListener(this);
         findViewById(R.id.govideo).setOnClickListener(this);
         findViewById(R.id.gosurface).setOnClickListener(this);
+        findViewById(R.id.goscheme).setOnClickListener(this);
+
     }
 
     @Override
@@ -40,6 +47,10 @@ public class ActivityMain extends Activity implements View.OnClickListener {
             case R.id.gosurface:
                 Intent isurface = new Intent(this, ActivitySurfaceView.class);
                 startActivity(isurface);
+                break;
+            case R.id.goscheme:
+                Intent ischeme = new Intent(this, ActivitySchemePull.class);
+                startActivity(ischeme);
                 break;
             default:
                 break;
