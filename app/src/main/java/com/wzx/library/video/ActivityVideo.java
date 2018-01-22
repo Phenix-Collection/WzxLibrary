@@ -7,15 +7,15 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.wzx.library.R;
-import com.wzx.library.media.IjkVideoView;
-import com.wzx.library.video.mediacontrol.MyMediaControler;
-import com.wzx.library.video.mediacore.MyVideoPlayerListener;
-import com.wzx.library.video.mediacore.MyVideoView;
+import com.wzxlib.videoplaylibrary.mediacontrol.MyMediaControler;
+import com.wzxlib.videoplaylibrary.mediacore.MyVideoPlayerListener;
+import com.wzxlib.videoplaylibrary.mediacore.MyVideoView;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -25,8 +25,8 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  */
 public class ActivityVideo extends Activity implements View.OnClickListener {
     private MyVideoView mMyVideoView;
-    private IjkVideoView mIjkVideoView;
     private View mPlayBtn;
+    private MyMediaControler mMediaController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +35,12 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
         setStatusBarTransparnet(this);
 
         mMyVideoView = (MyVideoView) findViewById(R.id.myvideoview);
-//        mIjkVideoView = (IjkVideoView) findViewById(R.id.myvideoview);
-//        mPlayBtn = findViewById(R.id.play);
-//        mPlayBtn.setOnClickListener(this);
 
-        MyMediaControler mediaController = (MyMediaControler) findViewById(R.id.mediacontorller);
-        mMyVideoView.setMediaController(mediaController);
+        mMediaController = (MyMediaControler) findViewById(R.id.mediacontorller);
+        mMediaController.setMediaPlayer(mMyVideoView);
+        mMediaController.showLoadingView();
 
-        mediaController.setOnFullScreenListener(new View.OnClickListener() {
+        mMediaController.setOnFullScreenListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int orientation = getResources().getConfiguration().orientation;
@@ -65,12 +63,18 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
         mMyVideoView.setMyVideoPlayerListener(new MyVideoPlayerListener() {
             @Override
             public void onRenderStart(IMediaPlayer var1) {
-
+                mMediaController.hideLoadingView();
+                mMediaController.show(3000);
             }
 
             @Override
-            public void onLoadingBuffer(boolean start) {
+            public void onBufferStart() {
+                mMediaController.showLoadingView();
+            }
 
+            @Override
+            public void onBufferEnd() {
+                mMediaController.hideLoadingView();
             }
 
             @Override
@@ -80,6 +84,7 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
 
             @Override
             public void onCompletion(IMediaPlayer iMediaPlayer) {
+                mMediaController.show(0);
                 Log.i("wangzixu", "mMyVideoView onCompletion");
             }
 
@@ -97,7 +102,7 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
                 Log.i("wangzixu", "mMyVideoView ***onPrepared***");
-//                mPlayBtn.setVisibility(View.VISIBLE);
+                mMediaController.setEnabled(true);
             }
 
             @Override
@@ -110,6 +115,21 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
                 Log.i("wangzixu", "mMyVideoView onVideoSizeChanged i = " + i + ", i1 = " + i1 + ", i2 = " + i2 + ", i3 = " + i3);
                 Log.i("wangzixu", "mMyVideoView onVideoSizeChanged w = " + iMediaPlayer.getVideoWidth() + ", h = " + iMediaPlayer.getVideoHeight());
 
+            }
+        });
+
+        mMyVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("wangzixu", "onTouch called ---");
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mMediaController.isShowing()) {
+                        mMediaController.hide();
+                    } else {
+                        mMediaController.show(3000);
+                    }
+                }
+                return false;
             }
         });
 

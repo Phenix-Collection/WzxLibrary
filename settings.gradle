@@ -1,4 +1,4 @@
-include ':app', ':HeaderFooterRecyview', ':PtrLayout', ':GaoDeMap', ':BingMap'
+include ':app', ':HeaderFooterRecyview', ':PtrLayout', ':GaoDeMap', ':BingMap', ':videoplaylibrary'
 include ':ClipImage'
 include ':UmShareLibrary'
 include ':UmPush'

@@ -4,21 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.wzx.library.video.mediacore.MyVideoView
+    <com.wzxlib.videoplaylibrary.mediacore.MyVideoView
         android:id="@+id/myvideoview"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.wzx.library.video.mediacore.MyVideoView>
+    </com.wzxlib.videoplaylibrary.mediacore.MyVideoView>
 
-    <com.wzx.library.video.mediacontrol.MyMediaControler
+        <!--android:visibility="gone"-->
+    <com.wzxlib.videoplaylibrary.mediacontrol.MyMediaControler
         android:id="@+id/mediacontorller"
-        android:visibility="gone"
-        android:layout_alignBottom="@id/myvideoview"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.wzx.library.video.mediacontrol.MyMediaControler>
+        android:layout_height="match_parent">
+    </com.wzxlib.videoplaylibrary.mediacontrol.MyMediaControler>
 
     <!--<FrameLayout-->
         <!--android:orientation="vertical"-->

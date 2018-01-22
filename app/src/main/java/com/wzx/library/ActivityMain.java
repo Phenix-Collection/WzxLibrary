@@ -11,10 +11,6 @@ import com.wzx.library.scheme.ActivitySchemePull;
 import com.wzx.library.surfaceview.ActivitySurfaceView;
 import com.wzx.library.video.ActivityVideo;
 
-import cn.finalteam.rxgalleryfinal.RxGalleryFinal;
-import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
-import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
-
 /**
  * Created by wangzixu on 2017/9/1.
  */
