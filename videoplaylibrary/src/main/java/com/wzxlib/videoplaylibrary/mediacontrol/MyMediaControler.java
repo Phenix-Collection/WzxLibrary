@@ -26,7 +26,7 @@ import java.util.Locale;
 /**
  * Created by wangzixu on 2018/1/9.
  */
-public class MyMediaControler extends FrameLayout implements IMyMediaPlayerControler {
+public class MyMediaControler extends FrameLayout {
     protected MyVideoView mPlayer;
     protected Context mContext;
     protected View mRoot;
@@ -94,10 +94,17 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
                     if (mOnPauseBtnClickListener != null) {
                         mOnPauseBtnClickListener.onClick(v);
                     } else {
+                        if (mPlayer == null) {
+                            return;
+                        }
                         if (isPlaying()) {
-                            pause();
+                            mPlayer.pause();
+                            show(3000);
+                            updatePausePlay();
                         } else {
-                            start();
+                            mPlayer.start();
+                            show(3000);
+                            updatePausePlay();
                         }
                     }
                 }
@@ -131,13 +138,13 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
 
                     @Override
                     public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
-                        if (!fromuser) {
+                        if (!fromuser || mPlayer == null) {
                             return;
                         }
 
-                        long duration = getDuration();
+                        long duration = mPlayer.getDuration();
                         long newposition = (duration * progress) / 1000L;
-                        seekTo( (int) newposition);
+                        mPlayer.seekTo( (int) newposition);
                         if (mCurrentTime != null) {
                             mCurrentTime.setText(stringForTime( (int) newposition));
                         }
@@ -159,7 +166,8 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
     }
 
     /**
-     * 显示主控制界面, 进度条, 时间, 等, 不包括loadingview, loadingview单独控制
+     * 显示主控制界面, 进度条, 时间, 等, 不包括loadingview, loadingview单独控制<br/>
+     * 并且有开始更新进度条的功能, 而且进度条的更新run中会根据play状态而自动停止更新, 不会一直循环
      * @param timeout 自动隐藏界面的等待时间, 若为0, 则始终显示, 不自动隐藏
      */
     public void show(int timeout) {
@@ -189,35 +197,41 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
         }
     }
 
-    public void removeSetProgressRun() {
+    public void removeProgressRun() {
         removeCallbacks(mUpdateProgressRunnable);
     }
 
-    public void hide() {
+    public void hide(boolean immediately) {
         if (getVisibility() == VISIBLE) {
-            try {
-                ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0);
-                animator.setDuration(200);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float f = (float) animation.getAnimatedValue();
-                        mContentView.setAlpha(f);
-                    }
-                });
+            if (immediately) {
+                removeCallbacks(mUpdateProgressRunnable);
+                mContentView.setVisibility(GONE);
+                mContentView.setAlpha(1.0f);
+            } else {
+                try {
+                    ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0);
+                    animator.setDuration(200);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float f = (float) animation.getAnimatedValue();
+                            mContentView.setAlpha(f);
+                        }
+                    });
 
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        removeCallbacks(mUpdateProgressRunnable);
-                        mContentView.setVisibility(GONE);
-                        mContentView.setAlpha(1.0f);
-                    }
-                });
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            removeCallbacks(mUpdateProgressRunnable);
+                            mContentView.setVisibility(GONE);
+                            mContentView.setAlpha(1.0f);
+                        }
+                    });
 
-                animator.start();
-            } catch (Exception ex) {
-                Log.w("MediaController", "hide Exception = " + ex.getMessage());
+                    animator.start();
+                } catch (Exception ex) {
+                    Log.w("MediaController", "hide Exception = " + ex.getMessage());
+                }
             }
         }
     }
@@ -225,17 +239,9 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
     protected final Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
-            hide();
+            hide(false);
         }
     };
-
-    /**
-     * 移除自动隐藏的runabble
-     */
-    public void retainShow() {
-        removeCallbacks(mHideRunnable);
-        mContentView.setVisibility(VISIBLE);
-    }
 
     protected final Runnable mUpdateProgressRunnable = new Runnable() {
         @Override
@@ -251,16 +257,16 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
         if (mPlayer == null || mDragging) {
             return 0;
         }
-        int position = getCurrentPosition();
-        int duration = getDuration();
+        int position = mPlayer.getCurrentPosition();
+        int duration = mPlayer.getDuration();
         if (mProgress != null) {
             if (duration > 0) {
                 // use long to avoid overflow
                 long pos = 1000L * position / duration;
                 mProgress.setProgress( (int) pos);
             }
-            int percent = getBufferPercentage();
-            mProgress.setSecondaryProgress(percent);
+            int percent = mPlayer.getBufferPercentage();
+            mProgress.setSecondaryProgress(percent*10);
         }
 
         if (mEndTime != null) {
@@ -316,6 +322,19 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
         }
     }
 
+    /**
+     * 切换显示和隐藏
+     * @param autoHideTime 切换显示后自动隐藏的时间, 0不自动隐藏
+     */
+    public void toogleShowingState(int autoHideTime) {
+        Log.d("wangzixu", "onTouch called ---");
+        if (isShowing()) {
+            hide(false);
+        } else {
+            show(autoHideTime);
+        }
+    }
+
     @Override
     public void setEnabled(boolean enabled) {
         if (mPauseButton != null) {
@@ -339,20 +358,6 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
             mCurrentTime.setText("");
     }
 
-    @Override
-    public void setVideoPath(String path) {
-        if (mPlayer != null) {
-            mPlayer.setVideoPath(path);
-        }
-    }
-
-    @Override
-    public void start() {
-        if (mPlayer != null) {
-            mPlayer.start();
-            updatePausePlay();
-        }
-    }
 
     public void showLoadingView() {
         mLoadingView.setVisibility(VISIBLE);
@@ -364,38 +369,6 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
         mPauseButton.setVisibility(VISIBLE);
     }
 
-    @Override
-    public void pause() {
-        if (mPlayer != null) {
-            mPlayer.pause();
-            updatePausePlay();
-        }
-    }
-
-    @Override
-    public int getDuration() {
-        if (mPlayer != null) {
-            return mPlayer.getDuration();
-        }
-        return -1;
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        if (mPlayer != null) {
-            return mPlayer.getCurrentPosition();
-        }
-        return 0;
-    }
-
-    @Override
-    public void seekTo(int pos) {
-        if (mPlayer != null) {
-            mPlayer.seekTo(pos);
-        }
-    }
-
-    @Override
     public boolean isPlaying() {
         if (mPlayer != null) {
             return mPlayer.isPlaying();
@@ -403,45 +376,99 @@ public class MyMediaControler extends FrameLayout implements IMyMediaPlayerContr
         return false;
     }
 
-    @Override
-    public int getBufferPercentage() {
-        if (mPlayer != null) {
-            return mPlayer.getBufferPercentage();
-        }
-        return 0;
-    }
+//    @Override
+//    public void setVideoPath(String path) {
+//        if (mPlayer != null) {
+//            mPlayer.setVideoPath(path);
+//        }
+//    }
+//
+//    @Override
+//    public void start() {
+//        if (mPlayer != null) {
+//            mPlayer.start();
+//            updatePausePlay();
+//        }
+//    }
 
-    @Override
-    public boolean canPause() {
-        if (mPlayer != null) {
-            return mPlayer.canPause();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean canSeekBackward() {
-        if (mPlayer != null) {
-            return mPlayer.canSeekBackward();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean canSeekForward() {
-        if (mPlayer != null) {
-            return mPlayer.canSeekForward();
-        }
-        return false;
-    }
-
-    @Override
-    public int getAudioSessionId() {
-        if (mPlayer != null) {
-            return mPlayer.getAudioSessionId();
-        }
-        return 0;
-    }
+//    @Override
+//    public void pause() {
+//        if (mPlayer != null) {
+//            mPlayer.pause();
+//            updatePausePlay();
+//        }
+//    }
+//
+//    @Override
+//    public int getDuration() {
+//        if (mPlayer != null) {
+//            return mPlayer.getDuration();
+//        }
+//        return -1;
+//    }
+//
+//    @Override
+//    public int getCurrentPosition() {
+//        if (mPlayer != null) {
+//            return mPlayer.getCurrentPosition();
+//        }
+//        return 0;
+//    }
+//
+//    @Override
+//    public void seekTo(int pos) {
+//        if (mPlayer != null) {
+//            mPlayer.seekTo(pos);
+//        }
+//    }
+//
+//    @Override
+//    public boolean isPlaying() {
+//        if (mPlayer != null) {
+//            return mPlayer.isPlaying();
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public int getBufferPercentage() {
+//        if (mPlayer != null) {
+//            return mPlayer.getBufferPercentage();
+//        }
+//        return 0;
+//    }
+//
+//    @Override
+//    public boolean canPause() {
+//        if (mPlayer != null) {
+//            return mPlayer.canPause();
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean canSeekBackward() {
+//        if (mPlayer != null) {
+//            return mPlayer.canSeekBackward();
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean canSeekForward() {
+//        if (mPlayer != null) {
+//            return mPlayer.canSeekForward();
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public int getAudioSessionId() {
+//        if (mPlayer != null) {
+//            return mPlayer.getAudioSessionId();
+//        }
+//        return 0;
+//    }
 
     public void setOnPauseBtnClickListener(OnClickListener onPauseBtnClickListener) {
         mOnPauseBtnClickListener = onPauseBtnClickListener;

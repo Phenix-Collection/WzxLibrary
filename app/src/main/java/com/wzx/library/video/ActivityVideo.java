@@ -38,6 +38,7 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
 
         mMediaController = (MyMediaControler) findViewById(R.id.mediacontorller);
         mMediaController.setMediaPlayer(mMyVideoView);
+        mMediaController.hide(true);
         mMediaController.showLoadingView();
 
         mMediaController.setOnFullScreenListener(new View.OnClickListener() {
@@ -123,11 +124,7 @@ public class ActivityVideo extends Activity implements View.OnClickListener {
             public boolean onTouch(View v, MotionEvent event) {
                 Log.d("wangzixu", "onTouch called ---");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (mMediaController.isShowing()) {
-                        mMediaController.hide();
-                    } else {
-                        mMediaController.show(3000);
-                    }
+                    mMediaController.toogleShowingState(3000);
                 }
                 return false;
             }

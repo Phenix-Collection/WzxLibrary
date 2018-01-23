@@ -33,15 +33,6 @@ public class MyMdeiaContorlerList extends MyMediaControler {
         return mRoot;
     }
 
-    @Override
-    public void pause() {
-        if (mPlayer != null) {
-            mPlayer.pause();
-            updatePausePlay();
-            retainShow();
-        }
-    }
-
 //    private String mTempPath;
 //    public void setTempVideoPath(String path) {
 //        mTempPath = path;
