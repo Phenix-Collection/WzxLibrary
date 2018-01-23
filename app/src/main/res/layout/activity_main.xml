@@ -2,44 +2,55 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:paddingLeft="100dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
         android:id="@+id/gomap"
-        android:textSize="20dp"
         android:text="地图"
-        android:layout_width="100dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/govideo"
-        android:textSize="20dp"
         android:text="视频"
-        android:layout_width="100dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/gosurface"
-        android:textSize="20dp"
         android:text="Surface写字板"
         android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/goscheme"
-        android:textSize="20dp"
         android:text="Scheme测试"
         android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/selectimages"
-        android:textSize="20dp"
         android:text="选图框架"
         android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:layout_height="50dp"/>
 </LinearLayout>
