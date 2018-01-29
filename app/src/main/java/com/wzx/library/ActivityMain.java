@@ -26,6 +26,7 @@ public class ActivityMain extends Activity implements View.OnClickListener {
         findViewById(R.id.govideo).setOnClickListener(this);
         findViewById(R.id.gosurface).setOnClickListener(this);
         findViewById(R.id.goscheme).setOnClickListener(this);
+        findViewById(R.id.selectimages).setOnClickListener(this);
 
     }
 
@@ -47,6 +48,10 @@ public class ActivityMain extends Activity implements View.OnClickListener {
             case R.id.goscheme:
                 Intent ischeme = new Intent(this, ActivitySchemePull.class);
                 startActivity(ischeme);
+                break;
+            case R.id.selectimages:
+                Intent iselect = new Intent(this, ActivitySchemePull.class);
+                startActivity(iselect);
                 break;
             default:
                 break;
