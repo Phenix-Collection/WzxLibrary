@@ -2,11 +2,12 @@
           package="com.wzx.library"
     >
 
-    //地图包、搜索包需要的基础权限
+    <!--地图包、搜索包需要的基础权限-->
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--允许程序设置内置sd卡的写权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--允许程序获取网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--允许程序访问WiFi网络信息-->
@@ -45,6 +46,10 @@
             />
         <activity android:name=".surfaceview.ActivitySurfaceView" android:screenOrientation="portrait"
             />
+        <activity android:name=".selectimages.ActivitySelectImages"
+                  android:screenOrientation="portrait"
+            />
+                  <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
         <activity
             android:theme="@style/Theme.Design.Light.NoActionBar"
             android:name=".video.ActivityVideo"

@@ -8,6 +8,7 @@ import android.view.View;
 import com.amap.api.maps2d.MapView;
 import com.wzx.library.map.ActivityMap;
 import com.wzx.library.scheme.ActivitySchemePull;
+import com.wzx.library.selectimages.ActivitySelectImages;
 import com.wzx.library.surfaceview.ActivitySurfaceView;
 import com.wzx.library.video.ActivityVideo;
 
@@ -50,7 +51,7 @@ public class ActivityMain extends Activity implements View.OnClickListener {
                 startActivity(ischeme);
                 break;
             case R.id.selectimages:
-                Intent iselect = new Intent(this, ActivitySchemePull.class);
+                Intent iselect = new Intent(this, ActivitySelectImages.class);
                 startActivity(iselect);
                 break;
             default:
