@@ -53,4 +53,14 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/lockdemo"
+        android:text="锁屏demo"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_height="50dp"/>
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.amap.api.maps2d.MapView;
 import com.wzx.library.map.ActivityMap;
+import com.wzx.library.reflectdemo.ActivityLockDemo;
 import com.wzx.library.scheme.ActivitySchemePull;
 import com.wzx.library.selectimages.ActivitySelectImages;
 import com.wzx.library.surfaceview.ActivitySurfaceView;
@@ -16,7 +17,6 @@ import com.wzx.library.video.ActivityVideo;
  * Created by wangzixu on 2017/9/1.
  */
 public class ActivityMain extends Activity implements View.OnClickListener {
-
     private MapView mMapView;
 
     @Override
@@ -28,7 +28,13 @@ public class ActivityMain extends Activity implements View.OnClickListener {
         findViewById(R.id.gosurface).setOnClickListener(this);
         findViewById(R.id.goscheme).setOnClickListener(this);
         findViewById(R.id.selectimages).setOnClickListener(this);
+        findViewById(R.id.lockdemo).setOnClickListener(this);
 
+        //锁屏相关的一系列广播相关begin
+//        IntentFilter filter=new IntentFilter();
+//        filter.addAction(Intent.ACTION_TIME_TICK); //每分钟一次的更新时间
+//        mReceiver = new LockScreenReceiver();
+//        registerReceiver(mReceiver, filter);
     }
 
     @Override
@@ -53,6 +59,10 @@ public class ActivityMain extends Activity implements View.OnClickListener {
             case R.id.selectimages:
                 Intent iselect = new Intent(this, ActivitySelectImages.class);
                 startActivity(iselect);
+                break;
+            case R.id.lockdemo:
+                Intent ilock = new Intent(this, ActivityLockDemo.class);
+                startActivity(ilock);
                 break;
             default:
                 break;

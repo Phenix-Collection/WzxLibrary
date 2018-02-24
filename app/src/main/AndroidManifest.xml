@@ -16,6 +16,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!--读取锁屏的contentprovider用的权限-->
+    <uses-permission android:name="com.haokan.lockcontentprovider"/>
 
     <application
         xmlns:tools="http://schemas.android.com/tools"
@@ -49,6 +53,9 @@
         <activity android:name=".selectimages.ActivitySelectImages"
                   android:screenOrientation="portrait"
             />
+        <activity android:name=".reflectdemo.ActivityLockDemo"
+                  android:screenOrientation="portrait"
+            />
                   <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
         <activity
             android:theme="@style/Theme.Design.Light.NoActionBar"
@@ -56,5 +63,6 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
             />
+
     </application>
 </manifest>
