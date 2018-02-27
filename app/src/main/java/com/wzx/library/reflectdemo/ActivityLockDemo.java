@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wzx.library.R;
-import com.wzx.library.reflectdemo.control.LockScreenViewProxy;
 import com.wzx.library.util.StatusBarUtil;
 
 /**
@@ -25,13 +24,13 @@ public class ActivityLockDemo extends Activity {
 
         mContentView = findViewById(R.id.content);
 
-        LockScreenViewProxy lockScreenViewProxy = new LockScreenViewProxy(this);
+        LockScreenClient lockScreenViewProxy = new LockScreenClient(this);
         View screenView = lockScreenViewProxy.getLockScreenView();
 
         Log.d("wangzixu", "ActivityLockDemo screenView = " + screenView);
         if (screenView != null) {
             mContentView.addView(screenView);
-            lockScreenViewProxy.loadOfflineNetData();
+            lockScreenViewProxy.loadDate();
         }
     }
 }
