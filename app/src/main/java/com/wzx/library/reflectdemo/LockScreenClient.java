@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public class LockScreenClient implements ILockScreenClient {
     public static final String TAG = "LockScreenClient ";
     public static final String REMOTE_PACKAGE = "com.haokanhaokan.lockscreen";
-    public static final String REMOTE_CLASSNAME = "com.haokan.hklockscreen.lockscreen.view.LockScreenViewProxy";
+    public static final String REMOTE_CLASSNAME = "com.haokan.hklockscreen.lockscreen.control.LockScreenViewController";
     Activity mContext;
     private Object mRemoteViewProxy;
     private Class mRemoteViewClazz;
