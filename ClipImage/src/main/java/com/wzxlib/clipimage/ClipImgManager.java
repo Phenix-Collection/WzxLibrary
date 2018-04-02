@@ -22,7 +22,11 @@ public class ClipImgManager {
     public void startChose(Activity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        Intent intent = new Intent(Intent.ACTION_PICK);
-//        intent.setType("image/*");
+        if (requestCode == 201) {
+            intent.setType("video/*");
+        } else {
+            intent.setType("image/*");
+        }
         try {
             activity.startActivityForResult(intent, requestCode);
         } catch (ActivityNotFoundException e) {
