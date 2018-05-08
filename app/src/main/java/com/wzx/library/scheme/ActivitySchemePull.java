@@ -29,8 +29,8 @@ public class ActivitySchemePull extends Activity implements View.OnClickListener
         mEtOriUrl = (EditText) findViewById(R.id.et_ori_url);
         mEtEndoceUrl = (EditText) findViewById(R.id.et_encode_url);
 
-        mEtOriUrl.setText("http://www.baidu.com");
-//        mEtOriUrl.setText("hkmrkd://webview/?url=http://www.baidu.com");
+        mEtOriUrl.setText("198");
+        mEtEndoceUrl.setText("hkugc://group/?groupid=198");
 
         findViewById(R.id.encodeurl).setOnClickListener(this);
         findViewById(R.id.skipapp).setOnClickListener(this);
@@ -58,7 +58,7 @@ public class ActivitySchemePull extends Activity implements View.OnClickListener
                 String toString = mEtOriUrl.getText().toString();
                 if (!TextUtils.isEmpty(toString)) {
                     String url = Uri.encode(toString);
-                    mEtEndoceUrl.setText("hkmrkd://webview/?url=" + url);
+                    mEtEndoceUrl.setText("hkugc://group/?groupid=" + url);
                 }
                 break;
             default:
