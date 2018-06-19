@@ -1,8 +1,6 @@
 package com.wzxlib.videoplaylibrary.mediacontrol;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
+
 import android.content.Context;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -11,6 +9,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -39,8 +39,6 @@ public class MyMediaControler extends FrameLayout {
     Formatter mFormatter;
     protected ImageButton mPauseButton;
     protected ImageButton mFullScreenButton;
-    protected CharSequence mPlayDescription;
-    protected CharSequence mPauseDescription;
     protected View mContentView;
     protected View mLoadingView;
     protected OnClickListener mOnFullScreenListener;
@@ -75,8 +73,6 @@ public class MyMediaControler extends FrameLayout {
     }
 
     protected void initControllerView(View v) {
-        mPlayDescription = "播放";
-        mPauseDescription = "暂停";
         mContentView = v.findViewById(R.id.controlcontent);
         mLoadingView = v.findViewById(R.id.bufferloadingview);
 
@@ -99,11 +95,11 @@ public class MyMediaControler extends FrameLayout {
                         }
                         if (isPlaying()) {
                             mPlayer.pause();
-                            show(3000);
+                            show(0);
                             updatePausePlay();
                         } else {
                             mPlayer.start();
-                            show(3000);
+                            show(2000);
                             updatePausePlay();
                         }
                     }
@@ -144,9 +140,9 @@ public class MyMediaControler extends FrameLayout {
 
                         long duration = mPlayer.getDuration();
                         long newposition = (duration * progress) / 1000L;
-                        mPlayer.seekTo( (int) newposition);
+                        mPlayer.seekTo((int) newposition);
                         if (mCurrentTime != null) {
-                            mCurrentTime.setText(stringForTime( (int) newposition));
+                            mCurrentTime.setText(stringForTime((int) newposition));
                         }
                     }
 
@@ -168,26 +164,15 @@ public class MyMediaControler extends FrameLayout {
     /**
      * 显示主控制界面, 进度条, 时间, 等, 不包括loadingview, loadingview单独控制<br/>
      * 并且有开始更新进度条的功能, 而且进度条的更新run中会根据play状态而自动停止更新, 不会一直循环
+     *
      * @param timeout 自动隐藏界面的等待时间, 若为0, 则始终显示, 不自动隐藏
      */
     public void show(int timeout) {
         updatePausePlay();
         if (mContentView.getVisibility() != VISIBLE) {
             mContentView.setVisibility(VISIBLE);
-            try {
-                ValueAnimator animator = ValueAnimator.ofFloat(0f, 1.0f);
-                animator.setDuration(200);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float f = (float) animation.getAnimatedValue();
-                        mContentView.setAlpha(f);
-                    }
-                });
-                animator.start();
-            } catch (Exception ex) {
-                Log.w("MediaController", "hide Exception = " + ex.getMessage());
-            }
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+            mContentView.startAnimation(animation);
         }
 
         post(mUpdateProgressRunnable);//更新进度条
@@ -208,30 +193,11 @@ public class MyMediaControler extends FrameLayout {
                 mContentView.setVisibility(GONE);
                 mContentView.setAlpha(1.0f);
             } else {
-                try {
-                    ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0);
-                    animator.setDuration(200);
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            float f = (float) animation.getAnimatedValue();
-                            mContentView.setAlpha(f);
-                        }
-                    });
-
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            removeCallbacks(mUpdateProgressRunnable);
-                            mContentView.setVisibility(GONE);
-                            mContentView.setAlpha(1.0f);
-                        }
-                    });
-
-                    animator.start();
-                } catch (Exception ex) {
-                    Log.w("MediaController", "hide Exception = " + ex.getMessage());
-                }
+                removeCallbacks(mUpdateProgressRunnable);
+                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
+                mContentView.startAnimation(animation);
+                mContentView.setVisibility(GONE);
+                mContentView.setAlpha(1.0f);
             }
         }
     }
@@ -263,10 +229,10 @@ public class MyMediaControler extends FrameLayout {
             if (duration > 0) {
                 // use long to avoid overflow
                 long pos = 1000L * position / duration;
-                mProgress.setProgress( (int) pos);
+                mProgress.setProgress((int) pos);
             }
             int percent = mPlayer.getBufferPercentage();
-            mProgress.setSecondaryProgress(percent*10);
+            mProgress.setSecondaryProgress(percent * 10);
         }
 
         if (mEndTime != null) {
@@ -283,7 +249,7 @@ public class MyMediaControler extends FrameLayout {
 
         int seconds = totalSeconds % 60;
         int minutes = (totalSeconds / 60) % 60;
-        int hours   = totalSeconds / 3600;
+        int hours = totalSeconds / 3600;
 
         mFormatBuilder.setLength(0);
         if (hours > 0) {
@@ -299,7 +265,7 @@ public class MyMediaControler extends FrameLayout {
 
     public void setMediaPlayer(MyVideoView player) {
         mPlayer = player;
-        Log.d("wangzixu", "setVideoPath setMediaPlayer mPlayer = " +mPlayer);
+        Log.d("wangzixu", "setVideoPath setMediaPlayer mPlayer = " + mPlayer);
         updatePausePlay();
     }
 
@@ -315,15 +281,14 @@ public class MyMediaControler extends FrameLayout {
         mPauseButton.requestFocus();
         if (isPlaying()) {
             mPauseButton.setImageResource(R.drawable.ic_media_pause);
-            mPauseButton.setContentDescription(mPauseDescription);
         } else {
             mPauseButton.setImageResource(R.drawable.ic_media_play);
-            mPauseButton.setContentDescription(mPlayDescription);
         }
     }
 
     /**
      * 切换显示和隐藏
+     *
      * @param autoHideTime 切换显示后自动隐藏的时间, 0不自动隐藏
      */
     public void toogleShowingState(int autoHideTime) {
@@ -350,12 +315,13 @@ public class MyMediaControler extends FrameLayout {
         mProgress.setProgress(0);
         mProgress.setSecondaryProgress(0);
         mPauseButton.setImageResource(R.drawable.ic_media_play);
-        mPauseButton.setContentDescription(mPlayDescription);
 
-        if (mEndTime != null)
+        if (mEndTime != null) {
             mEndTime.setText("");
-        if (mCurrentTime != null)
+        }
+        if (mCurrentTime != null) {
             mCurrentTime.setText("");
+        }
     }
 
 
