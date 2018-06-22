@@ -22,7 +22,18 @@ public class ClipImgManager {
     public void startChose(Activity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        Intent intent = new Intent(Intent.ACTION_PICK);
-        if (requestCode == 201) {
+
+//        Intent intent = new Intent();
+//        if (Build.VERSION.SDK_INT < 19) {
+//            intent.setAction(Intent.ACTION_GET_CONTENT);
+////            intent.setType("video/*");
+//        } else {
+//            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+////            intent.setType("video/*");
+//        }
+
+        if (requestCode == 102 || requestCode == 202) {
             intent.setType("video/*");
         } else {
             intent.setType("image/*");
